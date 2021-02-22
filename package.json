@@ -1,0 +1,16 @@
+{
+  "name": "1985243",
+  "version": "1.0.0",
+  "description": "Project PTUDW",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nguyen Thi Tanh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0"
+  }
+}
