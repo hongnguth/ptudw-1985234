@@ -16,9 +16,25 @@ app.engine('hbs', hbs.engine);
 app.set('view engine','hbs');
 
 // Define your router here
-app.get('/', (req, res) => {
-    res.render('index');
-});
+// => Index
+// products => category
+// /products/:id => single-product
+app.use('/', require('./routes/indexRouter'));
+app.use('/products', require('./routes/productRouter'));
+//app.use('/cart', require('./routes/cartRouter'));
+//app.use('/comments', require('./routes/commentRouter'));
+//app.use('/reviews', require('./routes/reviewRouter'));
+//app.use('/users', require('./routes/userRouter'));
+
+
+
+app.get('/sync', (req,res)=>{
+    let models = require('./models');
+    models.sequelize.sync()
+    .then(()=>{
+        res.send('database sync completed!')
+         });
+ });
 
 app.get('/:page', (req, res) => {
     let banners = {
