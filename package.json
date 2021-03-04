@@ -1,0 +1,20 @@
+{
+  "name": "1985234",
+  "version": "1.0.0",
+  "description": "project PTUDW",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hongnguth/ptudw-1985234.git"
+  },
+  "author": "Hong Ngu",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.1"
+  }
+}
