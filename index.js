@@ -19,14 +19,9 @@ app.set('view engine','hbs');
 // => Index
 // products => category
 // /products/:id => single-product
+
 app.use('/', require('./routes/indexRouter'));
 app.use('/products', require('./routes/productRouter'));
-//app.use('/cart', require('./routes/cartRouter'));
-//app.use('/comments', require('./routes/commentRouter'));
-//app.use('/reviews', require('./routes/reviewRouter'));
-//app.use('/users', require('./routes/userRouter'));
-
-
 
 app.get('/sync', (req,res)=>{
     let models = require('./models');
@@ -38,17 +33,18 @@ app.get('/sync', (req,res)=>{
 
 app.get('/:page', (req, res) => {
     let banners = {
-        blog:  'Our Blog',
-        category: 'Shop Category',
-        cart: 'Shopping Cart',
-        contact: 'Contact Us', 
-        login: 'Login / Register',
-        register: 'Register',
-        product: 'Single-Product',
-        tracking: 'Tracking-order',
-        checkout: 'Product Checkout'
-
-    };
+        'blog': 'Our Blog',
+        'category': 'Shop Category',
+        'cart': 'Shopping Cart',
+        'checkout': 'Checkout',
+        'confirmation': 'Order Confirmation',
+        'contact': 'Contact Us',
+        'login': 'Login/Register',
+        'register': 'Register',
+        'single-blog': 'Blog Details',
+        'single-product': 'Shop Single',
+        'tracking-order': 'Order Tracking'
+    }
     let page = req.params.page;
     res.render(page, {banner: banners[page]});
 });

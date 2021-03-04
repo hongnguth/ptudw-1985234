@@ -2,15 +2,14 @@ let controller = {};
 let models = require('../models');
 let Category = models.Category;
 
-controller.getAll = () =>
-{
-    return new Promise((resolve , reject)=> {
+controller.getAll = () => {
+    return new Promise((resolve, reject) => {
         Category
-        .findAll({
-            attributes: ['id', 'name', 'imagepath', 'summary'],
-        })
-        .then(data => resolve(data))
-        .catch(error => reject(new Error(error)));
+           .findAll({
+               attributes: ['id', 'name', 'imagepath', 'summary']
+           })
+           .then(data => resolve(data))
+           .catch(error => reject(new Error(error)));
     });
 };
 
