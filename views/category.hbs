@@ -1,5 +1,5 @@
 
-
+<script src="/vendors/nouislider/nouislider.min.js"></script>
 {{> banner }}
 
 	<!-- ================ category section start ================= -->		  
@@ -31,9 +31,9 @@
               <div class="head">Brands</div>
               <form action="#">
                 <ul>
-                  {{#each brands}}
-                  <li class="filter-list"><input class="pixel-radio" type="radio" id="apple" name="brand">
-                  <label for="apple">{{dataValues.name}}
+                   {{#each brands}}
+                  <li class="filter-list"><input class="pixel-radio" type="radio" id="brand{{dataValues.id}}" name="brand">
+                  <label for="brand{{dataValues.id}}" onclick="selectParam('brand',{{dataValues.id}})">{{dataValues.name}}
                     <span>({{dataValues.Products.length}})</span>
                   </label></li>
                   {{/each}}
@@ -114,7 +114,7 @@
                   <div class="card-body">
                     <p>{{dataValues.Category.name}}</p>
                     <h4 class="card-product__title"><a href="/products/{{dataValues.id}}">{{dataValues.name}}</a></h4>
-                    <p class="card-product__price">{{dataValues.price}}</p>
+                    <p class="card-product__price">${{dataValues.price}}</p>
                   </div>
                 </div>
               </div>
@@ -270,5 +270,42 @@
   </section>
 	<!-- ================ Subscribe section end ================= -->		  
 
+<script>
+  let urlParams = new URLSearchParams(location.search);
+  let params = {
+    category:0,
+    brand:0,
+    color:0,
+    min: 0,
+    max: 100,
+    //limit:9,
+    //page:1,
+    //sort:'name',
+    //search:''
+  };
 
+   // set param url
+  for (let key in params) {
+    if(!urlParams.has(key)) {
+      urlParams.append(key,params[key]);
+    }
+  }
+  for (let key in params) {
+  let control = $(`#${key}${urlParams.get(key)}`);
+        if(control) {
+          $(control).prop('checked',true);
+      }
+  }
+
+  function selectParam(key, value, reset = false) {
+   if(reset) {
+     for (let key in params) {
+       urlParams.set(key, params[key]);
+     }
+   } 
+    urlParams.set(key,value);
+    let url = `/products?${urlParams.toString()}`;
+    location.href = url;
+  }
+</script>
   

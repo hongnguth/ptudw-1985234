@@ -1,7 +1,8 @@
 let controller = {};
 let models = require('../models');
 let product = models.Product;
-
+let Sequelize = require('sequelize');
+let Op = Sequelize.Op;
 
 controller.getTrendingProducts = () =>
 {
@@ -23,18 +24,37 @@ controller.getTrendingProducts = () =>
         
     });
 };
-controller.getAll = () =>
+controller.getAll = (query) =>
 {
     return new Promise((resolve , reject)=>
     {
+        let options = {
+            include: [{model: models.Category}],
+            attributes: ['id', 'name','imagepath','price'],
+            where:{
+                price: {
+                    [Op.gte]: query.min,
+                    [Op.lte]: query.max
+                }
+            }
+        };
+        if (query.category > 0) {
+            options.where.categoryId = query.category;
+        }
+        if (query.brand > 0) {
+            options.where.brandId = query.brand;
+        }
+        if (query.color > 0) {
+            options.include.push({
+                model: models.ProductColor,
+                attributes: [],
+                where: { colorId: query.color}
+            });
+        }
         product
-        .findAll({
-                include: [{model: models.Category}],
-                attributes: ['id', 'name','imagepath','price'] 
-            })
-        .then(data => resolve(data))   
-        .catch(error => reject(new Error(error)));
-        
+            .findAll(options)
+             .then(data => resolve(data))
+             .catch(error => reject(new Error(error)));
     });
 };
 
@@ -94,9 +114,7 @@ controller.getById = (id) =>
                 productResult.Stars = stars;
                 resole(productResult);
             })
-        .catch((err) => {
-            reject(new Error(err));
-        });
+        .catch(error => reject(new Error(error)));
     });
 }
 controller.getTopProducts = () =>
@@ -116,9 +134,8 @@ controller.getTopProducts = () =>
         )
         .then((data) => {
             resole(data);   
-        }).catch((err) => {
-            reject(new Error(err));
-        });
+        })
+        .catch(error => reject(new Error(error)));
     });
 };
 
