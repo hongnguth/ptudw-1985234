@@ -20,10 +20,10 @@
         "dialect": "postgres"
     },
     "production": {
-        "username": "heroku-postgres-username",
-        "password": "heroku-postgres-password",
-        "database": "heroku-postgres-database",
-        "host": "heroku-postgres-host",
+        "username": "dwvwmxditqodkz",
+        "password": "33bddf08e458e053f667968f5506b79faf862dc1962697396d7862192dedbb84",
+        "database": "d7jqr22v5u4mje",
+        "host": "ec2-35-168-198-9.compute-1.amazonaws.com",
         "dialect": "postgres",
         "dialectOptions": {
             "ssl": {
