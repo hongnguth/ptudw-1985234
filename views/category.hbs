@@ -15,7 +15,7 @@
                 <form action="#">
                   <ul>
                     {{#each categories}}
-                    <li class="filter-list"><input class="pixel-radio" type="radio" id="men" name="brand"><label for="men">{{name}}<span> ({{Products.length}})</span></label></li>
+                    <li class="filter-list"><input class="pixel-radio" type="radio" id="men" name="brand"><label for="men">{{dataValues.name}}<span> ({{Products.length}})</span></label></li>
                     {{/each}}
                   </ul>
                 </form>
@@ -29,7 +29,7 @@
               <form action="#">
                 <ul>
                   {{#each brands}}
-                  <li class="filter-list"><input class="pixel-radio" type="radio" id="apple" name="brand"><label for="apple">{{name}}<span>({{Products.length}})</span></label></li>
+                  <li class="filter-list"><input class="pixel-radio" type="radio" id="apple" name="brand"><label for="apple">{{dataValues.name}}<span>({{Products.length}})</span></label></li>
                   {{/each}}
                 </ul>
               </form>
@@ -39,7 +39,7 @@
               <form action="#">
                 <ul>
                   {{#each colors}}
-                  <li class="filter-list"><input class="pixel-radio" type="radio" id="black" name="color"><label for="black">{{name}}<span> ({{ProductColors.length}})</span></label></li>
+                  <li class="filter-list"><input class="pixel-radio" type="radio" id="black" name="color"><label for="black">{{dataValues.name}}<span> ({{ProductColors.length}})</span></label></li>
                  {{/each}}
                 </ul>
               </form>
@@ -94,7 +94,7 @@
               <div class="col-md-6 col-lg-4">
                 <div class="card text-center card-product">
                   <div class="card-product__img">
-                    <img class="card-img" src="{{imagepath}}" alt="">
+                    <img class="card-img" src="{{dataValues.imagepath}}" alt="">
                     <ul class="card-product__imgOverlay">
                       <li><button><i class="ti-search"></i></button></li>
                       <li><button><i class="ti-shopping-cart"></i></button></li>
@@ -103,8 +103,8 @@
                   </div>
                   <div class="card-body">
                     <p>{{Category.name}}</p>
-                    <h4 class="card-product__title"><a href="#">{{name}}</a></h4>
-                    <p class="card-product__price">${{price}}</p>
+                    <h4 class="card-product__title"><a href="#">{{dataValues.name}}</a></h4>
+                    <p class="card-product__price">${{dataValues.price}}</p>
                   </div>
                 </div>
               </div>
