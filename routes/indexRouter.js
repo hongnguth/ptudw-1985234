@@ -13,7 +13,6 @@ router.get('/',(req, res,next) => {
         })
         .then(data => {
             res.locals.trendingProducts = data;
-            //console.log(data);
             res.render('index');
         })
         .catch(error => next(error));
