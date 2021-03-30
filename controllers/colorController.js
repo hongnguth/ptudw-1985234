@@ -13,4 +13,4 @@ controller.getAll=()=>{
             .catch(error=>reject(new Error(error)));
     });
 };
-models.exports=controller;
+module.exports=controller;

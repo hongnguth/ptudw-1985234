@@ -1,21 +1,22 @@
-let express=require('express');
-let router=express.Router();
+let express = require('express');
+let router = express.Router();
 
-router.get('/',(req,res,next)=>{
-    let categoryController=require('../controllers/categoryController');
+router.get('/',(req, res,next) => {
+    let categoryController =  require('../controllers/categoryController');
     categoryController
         .getAll()
-        .then(data =>{
-            res.locals.categories=data;
-            let productController=require('../controllers/productController');
-            return productController=getTrendingProducts();
+        .then(data => {
+            res.locals.categories = data;
+            let productController = require('../controllers/productController');
+            return productController.getTrendingProducts();
+            
+        })
+        .then(data => {
+            res.locals.trendingProducts = data;
+            //console.log(data);
             res.render('index');
         })
-        .then(data=>{
-            res.locals.getTrendingProducts=data;
-            res.render('index');
-        })
-        .catch(error =>next(error));
+        .catch(error => next(error));
+    
 })
-
-module.exports=router;
+module.exports = router;
