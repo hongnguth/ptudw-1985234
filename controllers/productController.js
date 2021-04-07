@@ -30,7 +30,7 @@ controller.getAll = (query) =>
     {
         let options = {
             include: [{model: models.Category}],
-            attributes: ['id', 'name','imagepath','price'],
+            attributes: ['id', 'name','imagepath','price', 'categoryId'],
             where:{
                 price: {
                     [Op.gte]: query.min,
@@ -40,6 +40,12 @@ controller.getAll = (query) =>
         };
         if (query.category > 0) {
             options.where.categoryId = query.category;
+        }
+        if(query.search != '')
+        {
+            options.where.name = {
+                [Op.iLike] : `%${query.search}%`
+            }
         }
         if (query.brand > 0) {
             options.where.brandId = query.brand;
@@ -51,8 +57,30 @@ controller.getAll = (query) =>
                 where: { colorId: query.color}
             });
         }
+        if(query.limit > 0)
+        {
+            options.limit = query.limit;
+            options.offset = query.limit * (query.page - 1);
+        }
+        if(query.sort)
+        {
+            switch (query.sort) {
+                case 'name':
+                    options.order = [['name', 'ASC']];
+                    break;
+                case 'price':
+                    options.order = [['price', 'ASC']];
+                    break;
+                case 'overallReview':            
+                    options.order = [['overallReview', 'DESC']];
+                    break;
+                default:
+                    options.order = [['name', 'ASC']];
+                    break;
+            }
+        }
         product
-            .findAll(options)
+            .findAndCountAll(options) // return {rows, count}
              .then(data => resolve(data))
              .catch(error => reject(new Error(error)));
     });
