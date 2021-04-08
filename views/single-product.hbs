@@ -1,8 +1,12 @@
 
-	{{> banner }}
+	<!-- ================ start banner area ================= -->	
+
+{{>banner}}
+	<!-- ================ end banner area ================= -->
+
 
   <!--================Single Product Area =================-->
-	{{#with product}}
+{{#with product}}
 	<div class="product_image_area">
 		<div class="container">
 			<div class="row s_product_inner">
@@ -35,7 +39,7 @@
 							<input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty" id="sst" readonly>
 							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
                class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-							<a class="button primary-btn text-white add-to-cart" data-id="{{dataValues.id}}">Add to Cart</a>              
+							<a class="button primary-btn text-white add-to-cart" data-id="{{dataValues.id}}">Add to Cart</a>               
 						</div>
 						<div class="card_area d-flex align-items-center">
 							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
@@ -71,12 +75,13 @@
 			</ul>
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-					<p>{{{dataValues.description}}}</p>
+				<p>{{{dataValues.description}}}</p>
+				</div>
 				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 					<div class="table-responsive">
 						<table class="table">
 							<tbody>
-							{{#each ProductSpecifications}}
+								{{#each ProductSpecifications}}
 								<tr>
 									<td>
 										<h5>{{Specification.dataValues.name}}</h5>
@@ -226,8 +231,9 @@
 			</div>
 		</div>
 	</section>
-	<!--================End Product Description Area =================-->
 {{/with}}
+	<!--================End Product Description Area =================-->
+
 	<!--================ Start related Product area =================-->  
 	<section class="related-product-area section-margin--small mt-0">
 		<div class="container">
@@ -343,5 +349,70 @@
 		</div>
 	</section>
 	<!--================ end related Product area =================-->  	
+<script>
+	$(document).ready(()=>{
+		$('#btnclose').hide();
+		$('#starList i').on('click', checkStars);
+		$('#starList i').on('mouseover', highlightStars);
+		$('#starList i').on('mouseout', resetStars);
+		resetStars();
+	})
+	function getRatting(star)
+	{
+		let stars = $('#starList i');
+		let ratting = 0;
+		for(let i = 0; i< 5; i ++)
+		{
+			if($(stars[i]).get(0) == star)
+			{
+				return (i + 1);
+			}
+		}
+		return ratting;
+	}
+	function checkStars(){
+		let stars = $('#starList i');
+		let ratting = getRatting(this);
+		$('#rating').val(ratting);
 
-  
+		showStars(ratting);
+	}
+	function showStars(ratting)
+	{
+		let stars = $('#starList i');
+		for (i = 0; i < 5; i++)
+		{
+			$(stars[i]).removeClass('disabled');
+		}
+		for (i = 5; i >= ratting; i--)
+		{
+			$(stars[i]).addClass('disabled');
+		}
+		let starNames = ['Please rating this product!','Worst','Bad','Ok','Good','OutStanding']
+		$('#starName').html(starNames[ratting]);
+	}
+	function highlightStars(star)
+	{
+		let ratting = getRatting(this);
+		showStars(ratting);
+	}
+	function resetStars()
+	{
+		let ratting = $('#rating').val();
+		showStars(ratting);
+	}
+	function showReply(parentCommentId, userName)
+	{
+		$('#btnclose').show();
+		$('#replay').html('Replay '+ userName);
+		$('#parentCommentId').val(parentCommentId);
+	}
+
+	function removeReply()
+	{
+		$('#btnclose').hide();
+		$('#replay').html('');
+		$('#parentCommentId').val('');
+	}
+
+</script>

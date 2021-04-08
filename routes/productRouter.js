@@ -66,11 +66,15 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) =>
 {
     let productController = require('../controllers/productController');
-    productController
-        .getById(req.params.id)
-        .then(product => {
-            res.locals.product = product;    
-            res.render('single-product');
+    productController.getById(req.params.id)
+    .then((result) => {
+        res.locals.product = result;    
+        let reviewController = require('../controllers/reviewController');
+        return reviewController.getUserReviewProduct(req.session.user ? req.session.user.id : 0, req.params.id);
+    })
+    .then(review => {
+        res.locals.userReview = review;
+        res.render('single-product', {banner: 'single-product'});
     })
     .catch(error => next(error));
 });
