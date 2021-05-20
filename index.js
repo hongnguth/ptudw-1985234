@@ -7,6 +7,7 @@ app.use(express.static(__dirname + '/public'));
 // View Engine
 let expressHbs = require('express-handlebars');
 let helper=require('./controllers/helper');
+let paginateHelper=require('express-handlebars-paginate');
 let hbs = expressHbs.create({
 	extname			: 'hbs',
 	defaultLayout	: 'layout', 
@@ -14,16 +15,44 @@ let hbs = expressHbs.create({
 	partialsDir		: __dirname + '/views/partials/',
     helpers: {
         createStarList: helper.createStarList,
-        createStars: helper.createStars
+        createStars: helper.createStars,
+        createPagination: paginateHelper.createPagination
     }
 });
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
+//body parser
+let bodyParser= require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+//use cookie parser
+let cookieParser=require('cookie-parser');
+app.use(cookieParser());
+
+//use session
+let session=require('express-session');
+app.use(session({
+    cookie: {httpOnly: true, maxAge: 30 * 24 * 60* 60 * 1000},
+    secret: "S3cret",
+    resave: false,
+    saveUninitilized: false
+}));
+
+//use cart controller
+let Cart= require('./controllers/cartController');
+app.use((req, res, next)=>{
+    var cart=new Cart(req.session.cart ? req.session.cart: {});
+    req.session.cart=cart;
+    res.locals.totalQuantity=cart.totalQuantity;
+    next();
+});
 //cac routes
 
 app.use('/', require('./routes/indexRouter'));
 app.use('/products', require('./routes/productRouter'));
+app.use('/cart', require('./routes/cartRouter'));
 
 app.get('/sync', function(req, res) {
     let models = require('./models');
